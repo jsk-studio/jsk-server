@@ -22,12 +22,16 @@ module.exports = {
     module: {
       rules: [
         {
-          test: /\.tsx?$/,
-          use: [
-            {
-              loader: 'awesome-typescript-loader',
-            },
-          ],
+            test: /\.tsx?$/,
+            exclude: /node_modules/,
+            loader: 'babel-loader',
+            options: {
+                presets: [
+                '@babel/preset-env',
+                '@babel/preset-react',
+                '@babel/preset-typescript'
+                ]
+            }
         },
       ],
     },

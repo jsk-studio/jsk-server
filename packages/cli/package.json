@@ -1,13 +1,13 @@
 {
   "name": "@jsk-server/cli",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "src/index.js",
   "bin": {
     "jsk-server": "./src/bin.js"
   },
   "scripts": {
-    "script": "node ./src/script.js",
+    "script": "node ./src/bin.js",
     "test:build-koa": "JSK_ROOT_DIR=./mock/koa npm run script build",
     "help": "NODE_ENV=production webpack --config /Users/bilibili/Desktop/basic-kit/node-kits/packages/aliyun-cli/src/webpackNode.config.js"
   },
@@ -20,14 +20,23 @@
     "typescript": "^3.2.2"
   },
   "peerDependencies": {
+    "@babel/core": "^7.14.6",
+    "@babel/preset-env": "^7.14.7",
+    "@babel/preset-react": "^7.14.5",
+    "@babel/preset-typescript": "^7.14.5",
     "@types/yargs": "^17.0.0",
+    "babel-loader": "^8.2.2",
+    "webpack": "^5.42.1",
     "webpack-cli": "^3.3.12",
-    "awesome-typescript-loader": "^5.2.1",
     "yargs": "^17.0.0-candidate.13"
   },
   "dependencies": {
+    "@babel/core": "^7.14.6",
+    "@babel/preset-env": "^7.14.7",
+    "@babel/preset-react": "^7.14.5",
+    "@babel/preset-typescript": "^7.14.5",
     "@types/yargs": "^17.0.0",
-    "awesome-typescript-loader": "^5.2.1",
+    "babel-loader": "^8.2.2",
     "webpack": "^5.42.1",
     "webpack-cli": "^3.3.12",
     "yargs": "^17.0.0-candidate.13"
