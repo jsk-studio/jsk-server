@@ -1,0 +1,62 @@
+{
+  "name": "@jsk-server/koa",
+  "version": "0.0.1",
+  "description": "jsk koa server",
+  "sideEffects": false,
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "test": "jest",
+    "build:force": "rimraf .tsbuildcache && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lynnkoo/js-basic-kit.git"
+  },
+  "keywords": [
+    "js-basic-kit"
+  ],
+  "author": "lynnkoo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lynnkoo/js-basic-kit/issues"
+  },
+  "homepage": "https://github.com/lynnkoo/js-basic-kit#readme",
+  "devDependencies": {
+    "@types/debug": "^4.1.5",
+    "@types/http-proxy-middleware": "^0.19.3",
+    "@types/koa": "^2.11.3",
+    "@types/koa-bodyparser": "^4.3.0",
+    "@types/koa-json": "^2.0.18",
+    "@types/koa-logger": "^3.1.1",
+    "@types/koa-router": "^7.4.1",
+    "tslib": "^2.3.0",
+    "typescript": "^3.2.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "debug": "^4.1.1",
+    "http-proxy-middleware": "^1.0.5",
+    "koa": "^2.7.0",
+    "koa-bodyparser": "^4.2.1",
+    "koa-json": "^2.0.2",
+    "koa-logger": "^3.2.0",
+    "koa-router": "^7.4.0",
+    "koa-send": "^5.0.1",
+    "koa2-connect": "^1.0.2"
+  },
+  "peerDependencies": {
+    "debug": "^4.1.1",
+    "http-proxy-middleware": "^1.0.5",
+    "koa": "^2.7.0",
+    "koa-bodyparser": "^4.2.1",
+    "koa-json": "^2.0.2",
+    "koa-logger": "^3.2.0",
+    "koa-router": "^7.4.0",
+    "koa-send": "^5.0.1",
+    "koa2-connect": "^1.0.2"
+  }
+}
