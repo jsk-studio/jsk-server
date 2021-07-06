@@ -17,16 +17,14 @@ type IServerMiddleware = {
     configure?: any,
 }
 type IServerConfigure = {
-    routers?: Router[],
     middlewares?: IServerMiddleware,
     baseRouter?: Router,
 }
 
-export const createServer = (config: IServerConfigure = {}) => {
+export const createServer = (routers: Router[], config = {} as IServerConfigure) => {
     const {
-        routers = [],
         middlewares = {},
-        baseRouter,
+        baseRouter = apiRouter,
     } = config
 
     app.use(initialize)
@@ -73,13 +71,13 @@ export const createServer = (config: IServerConfigure = {}) => {
 //     })
 // }
 
-export function createAPIServer(routers: Router[], middleWares: IServerMiddleware) {
-    return createServer({ 
-        routers,
-        middlewares: {
-            // request: requestProxy(),
-            ...middleWares,
-        },
-        baseRouter: apiRouter,
-    })
-}
+// export function createAPIServer(routers: Router[], middleWares: IServerMiddleware) {
+//     return createServer({ 
+//         routers,
+//         middlewares: {
+//             // request: requestProxy(),
+//             ...middleWares,
+//         },
+//         baseRouter: apiRouter,
+//     })
+// }

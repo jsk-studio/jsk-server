@@ -1,0 +1,40 @@
+{
+  "name": "@jsk-server/mysql",
+  "version": "0.0.1",
+  "description": "js-basic-kit",
+  "sideEffects": false,
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "test": "jest",
+    "build:force": "rimraf .tsbuildcache && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lynnkoo/js-basic-kit.git"
+  },
+  "keywords": [
+    "js-basic-kit"
+  ],
+  "author": "lynnkoo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lynnkoo/js-basic-kit/issues"
+  },
+  "homepage": "https://github.com/lynnkoo/js-basic-kit#readme",
+  "devDependencies": {
+    "typescript": "^3.2.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@jsk-std/x": "^0.0.2",
+    "mysql2": "^2.2.5"
+  },
+  "peerDependencies": {
+    "@jsk-std/x": "^0.0.2",
+    "mysql2": "^2.2.5"
+  }
+}
