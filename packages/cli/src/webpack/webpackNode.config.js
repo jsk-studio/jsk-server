@@ -12,7 +12,7 @@ module.exports = {
     },
     output: {
       filename: '[name].js',
-      path: path.join(rootDir, './build'),
+      path: path.join(rootDir, './dist'),
       libraryTarget: 'commonjs',
     },
     target: 'node',
