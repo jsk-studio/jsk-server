@@ -3,7 +3,7 @@ const path = require('path')
 const rootDir = path.join(process.cwd(), process.env.JSK_ROOT_DIR)
 
 module.exports = {
-    mode: 'none', // webpack 4 代码压缩存在问题
+    mode: 'production',
     entry: {
       index: path.join(rootDir, './src/index.ts'),
     },
@@ -27,10 +27,11 @@ module.exports = {
             loader: 'babel-loader',
             options: {
                 presets: [
-                '@babel/preset-env',
-                '@babel/preset-react',
-                '@babel/preset-typescript'
-                ]
+                  '@babel/preset-env',
+                  '@babel/preset-react',
+                  '@babel/preset-typescript'
+                ],
+                plugins: ["@babel/plugin-transform-runtime"]
             }
         },
       ],

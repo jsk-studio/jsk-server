@@ -12,8 +12,8 @@ import { ssrRouter } from '../routers/ssrRouter'
 import { apiRouter } from '../routers/apiRouter'
 
 type IServerMiddleware = {
-    static?: any,
-    request?: any,
+    staticProxy?: any,
+    requestProxy?: any,
     configure?: any,
 }
 type IServerConfigure = {
@@ -35,21 +35,21 @@ export const createServer = (routers: Router[], config = {} as IServerConfigure)
     
     app.use(normalizeError)
 
-    if (middlewares.static) {
-        app.use(middlewares.static)
+    if (middlewares.staticProxy) {
+        app.use(middlewares.staticProxy)
     }
 
     app.use(normalizeData)
     // app.use(validateParams)
 
+    if (middlewares.requestProxy) {
+        app.use(middlewares.requestProxy)
+    }
+
     routers.forEach(router => {
         app.use(router.routes())
         app.use(router.allowedMethods())
     })
-
-    if (middlewares.request) {
-        app.use(middlewares.request)
-    }
 
     if (baseRouter) {
         app.use(baseRouter.routes())
