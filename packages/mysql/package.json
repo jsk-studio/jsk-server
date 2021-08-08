@@ -1,7 +1,7 @@
 {
   "name": "@jsk-server/mysql",
-  "version": "0.0.1",
-  "description": "js-basic-kit",
+  "version": "0.0.2",
+  "description": "jsk-server mysql utils",
   "sideEffects": false,
   "main": "lib/index.js",
   "scripts": {

@@ -4,8 +4,7 @@ import {
     initialize,
     normalizeData,
     normalizeError,
-    // requestProxy,
-    // staticProxy,
+    queryParams,
 } from '../middlewares'
 import Router from 'koa-router'
 import { ssrRouter } from '../routers/ssrRouter'
@@ -40,16 +39,16 @@ export const createServer = (routers: Router[], config = {} as IServerConfigure)
     }
 
     app.use(normalizeData)
-    // app.use(validateParams)
-
-    if (middlewares.requestProxy) {
-        app.use(middlewares.requestProxy)
-    }
+    app.use(queryParams)
 
     routers.forEach(router => {
         app.use(router.routes())
         app.use(router.allowedMethods())
     })
+
+    if (middlewares.requestProxy) {
+        app.use(middlewares.requestProxy)
+    }
 
     if (baseRouter) {
         app.use(baseRouter.routes())

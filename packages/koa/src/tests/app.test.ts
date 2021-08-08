@@ -1,8 +1,8 @@
 import app from '../modules/app'
-// import request from 'supertest'
-import Router from 'koa-router'
+
+import Router, { RouterContext } from 'koa-router'
 import { IRouterHandlers } from '../modules/base'
-import { validateParams } from '../middlewares'
+import { queryParams } from '../index'
 
 const route: IRouterHandlers = {
     test1: async(ctx: any) => {
@@ -23,9 +23,22 @@ const router = new Router()
 router.get('/test', route.test1)
 router.get('/error', route.testerror)
 
-app.use(validateParams)
+router.get('/test', test1_route)
+
+const users = [
+    { name: 'name', type: 'number', rules: []},
+    { name: 'desc', param:'name2', type: 'string', rules: []},
+    { name: 'xxx', type: 'string[]', rules: []},
+] as const
+
+app.use(queryParams)
 app.use(router.middleware())
 app.use(router.allowedMethods())
+
+async function test1_route(ctx: RouterContext) {
+    // const user = ctx.jsk.query(users)
+    ctx.request.body
+}
 
 
 const mockQuery = {

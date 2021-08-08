@@ -1,5 +1,5 @@
 import mysql from 'mysql2'
-
+import {  xArray } from '@jsk-std/x'
 type SQLStrings =  {
     select?: string
     where?: string
@@ -31,26 +31,15 @@ export class SampleSQLBuilder<T = any> {
         this.mapper = mapper.filter(m => !!m.name)
         
     }
-    public SELECT(type?: 'INC' | 'EXC' | string[] | string , names?: string[]) {
-        if (Array.isArray(type)) {
-            names = type
-            type = 'INC'
-        }
-        if (type && !['INC', 'EXC'].includes(type)) {
-            const m = type.split(/\[|\]/)
-            if (['INC', 'EXC'].includes(m[0])) {
-                type = m[0]
-            } else {
-                type = 'INC'
-            }
-            names = m[1].split(/\,\s*/)
-        }
+    public SELECT(type?: 'INC' | 'EXC', names?: string[]) {
         let mapper = this.mapper
-        const filterNames = names
-        if (filterNames && type === 'INC') {
-            mapper = this.mapper.filter(m => filterNames.includes(m.name))
-        } else if (filterNames && type === 'EXC') {
-            mapper = this.mapper.filter(m => !filterNames.includes(m.name))
+        const filterNames =  xArray(names)
+        if (type && filterNames.length) {
+            if (type === 'INC') {
+                mapper = this.mapper.filter(m => filterNames.includes(m.name))
+            } else {
+                mapper = this.mapper.filter(m => !filterNames.includes(m.name))
+            }
         }
         const select = mapper.map(m => m.column 
             ? mysql.format('?? as ??', [m.column, m.name]) 
@@ -68,7 +57,7 @@ export class SampleSQLBuilder<T = any> {
     }
     public INSERT(model: any) {
         const keys = Object.keys(model)
-        const mapper = this.mapper.filter(m => !m.primary && keys.includes(m.name) && model[m.name])
+        const mapper = this.mapper.filter(m => m.type !== 'primary' && keys.includes(m.name) && model[m.name])
         const insert = mapper.map(m => mysql.format('??', [m.column || m.name])).join(', ')
         const values = mapper.map(m => mysql.format('?', [model[m.name]])).join(', ')
         this.strs = { insert: `(${insert}) VALUES(${values})` }
@@ -77,8 +66,7 @@ export class SampleSQLBuilder<T = any> {
     public UPDATE(model: any) {
         const keys = Object.keys(model)
         const mapper = this.mapper.filter(m => {
-            const editable = typeof m.editable === 'undefined' ? true : m.editable
-            return editable && !m.primary && keys.includes(m.name) && model[m.name]
+            return m.type === 'editable' && m.type !== 'primary' && keys.includes(m.name) && model[m.name]
         })
         const update = mapper.map(m => mysql.format('??=?', [m.column || m.name, model[m.name]])).join(', ')
         this.strs.update = update
@@ -114,7 +102,7 @@ export class SampleSQLBuilder<T = any> {
             const mvalues = typeKeys.find(([q, k]) => m.name === k)
             if (mvalues) {
                 const [querykey, key, mtype = '' ] = mvalues
-                const type = mtype.toLocaleUpperCase()
+                const type = mtype.toUpperCase()
                 mapper.push({ ...m, key, querykey, type })
             }
             const cvalues = callKeys.find(([q, k]) => m.name === k)
@@ -310,6 +298,15 @@ export class SampleSQLBuilder<T = any> {
     }
 }
 
-export function createSampleSQL(name: string, mapper: any) {
-    return new SampleSQLBuilder(name, mapper)
+export type ISQLMapper<T> = {
+    name: keyof T, // 字段映射的 name
+    column?: string, // 数据库表映射, 不填则为 name 
+    // primary: insert 忽略此属性, update 忽略此属性
+    // readonly: insert 可以修改, update 忽略此属性
+    // editable: insert 可以修改, update 可以修改
+    type: 'editable' | 'primary' | 'readonly'
+}
+
+export function createSampleSQL<T>(name: string, mappers: ISQLMapper<T>[]) {
+    return new SampleSQLBuilder<T>(name, mappers)
 }
