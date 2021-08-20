@@ -1,4 +1,4 @@
 export const ERROR_CODE = {
-    UNKNOW: 100_0000_0000,
-    NOTFOUND: 400_0000_0000,
+    UNKNOW: 100_0000,
+    NOTFOUND: 400_0000,
 }

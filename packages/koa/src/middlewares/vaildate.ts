@@ -3,7 +3,7 @@ import { xArray, xParse } from '@jsk-std/x'
 
 export async function queryParams (ctx: Context, next: Next) {
     const validator = createVaildator(ctx.query, ctx.request.body)
-    ctx.params = <T = any>(checks: IValidatorCheck[]) => {
+    ctx.jsk.params = <T = any>(checks: IValidatorCheck[]) => {
         try {
             return validator(checks) as T
         } catch(error) {

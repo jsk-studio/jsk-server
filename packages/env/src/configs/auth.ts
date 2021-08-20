@@ -5,8 +5,8 @@ export const authConfigs = readTomlConfig<IAuthConfigs>('auth')
 type MapKeyTypes<T> = { [key in string] : T } & T
 
 type IAuthConfigs = {
-    aliyun: IAliyunAuth,
-    wechat?: IWechatAuth,
+    aliyun?: MapKeyTypes<IAliyunAuth>,
+    wechat?: MapKeyTypes<IWechatAuth>,
     mysql?: MapKeyTypes<IMysqlAuth>,
     redis?: MapKeyTypes<IRedisAuth>,
 }

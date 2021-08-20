@@ -4,6 +4,8 @@ export * from './modules/base'
 export * from './modules/server'
 export * from './routers/creator'
 export * from './middlewares/vaildate'
+import { Context } from 'koa'
+import { RouterContext } from 'koa-router'
 
 type JSKContext = {
     config: { device: string },
@@ -11,7 +13,12 @@ type JSKContext = {
 }
 
 declare module 'koa' {
-    interface DefaultContext {
+    export interface DefaultContext {
+        jsk: JSKContext
+    }
+}
+declare module 'koa-router' {
+    export interface IRouterParamContext<StateT = any, CustomT = {}> {
         jsk: JSKContext
     }
 }

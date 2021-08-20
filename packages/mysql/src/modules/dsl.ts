@@ -80,7 +80,7 @@ export function connectDSL<T = any>(conn: mysql.PoolConnection, dsl: IDSLType<T>
 
         const [ queryRows, queryFileds ] =  await conn.query<any>(sql)
         fileds = queryFileds
-        if (strs[0].startsWith('SELECT')) {
+        if (strs[0].includes('SELECT')) {
             rows = queryRows
         } else {
             result = queryRows

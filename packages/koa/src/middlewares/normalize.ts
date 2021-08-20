@@ -6,7 +6,8 @@ export const initialize = async (ctx: Context, next: Next) => {
     const ua = ctx.header['user-agent']!
     const isMobile = /AppleWebKit.*Mobile.*/i.test(ua)
     const device = isMobile ? 'mobile' : 'web'
-    ctx.config = { device }
+    ctx.jsk = {} as any
+    ctx.jsk.config = { device }
     await next()
 }
 
@@ -19,10 +20,10 @@ export const normalizeError = async (ctx: Context, next: Next) => {
             err.message = 'Unknow Error'
         }
         if (!err.code) {
-            err.code = -1
+            err.code = -100
         }
         
-        if (err.code >= ERROR_CODE.UNKNOW) {
+        if (err.code == -100 || err.code >= ERROR_CODE.UNKNOW) {
             const { code, message, ...context } = err
             ctx.body = { code, data: { message }, ...context }
             return
