@@ -7,24 +7,20 @@ import {
     queryParams,
 } from '../middlewares'
 import Router from 'koa-router'
-import { ssrRouter } from '../routers/ssrRouter'
 import { apiRouter } from '../routers/apiRouter'
 
 type IServerMiddleware = {
     staticProxy?: any,
     requestProxy?: any,
     configure?: any,
-}
-type IServerConfigure = {
-    middlewares?: IServerMiddleware,
-    baseRouter?: Router,
+    cors?: any,
 }
 
-export const createServer = (routers: Router[], config = {} as IServerConfigure) => {
-    const {
-        middlewares = {},
-        baseRouter = apiRouter,
-    } = config
+export const createServer = (
+    routers: Router[], 
+    middlewares = {} as IServerMiddleware, 
+    defaultRouter = apiRouter,
+) => {
 
     app.use(initialize)
 
@@ -50,9 +46,13 @@ export const createServer = (routers: Router[], config = {} as IServerConfigure)
         app.use(middlewares.requestProxy)
     }
 
-    if (baseRouter) {
-        app.use(baseRouter.routes())
-        app.use(baseRouter.allowedMethods())
+    if (defaultRouter) {
+        app.use(defaultRouter.routes())
+        app.use(defaultRouter.allowedMethods())
+    }
+
+    if (middlewares.cors) {
+        app.use(middlewares.cors)
     }
 
     return app

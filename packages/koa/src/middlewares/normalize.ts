@@ -8,6 +8,8 @@ export const initialize = async (ctx: Context, next: Next) => {
     const device = isMobile ? 'mobile' : 'web'
     ctx.jsk = {} as any
     ctx.jsk.config = { device }
+    // 默认开启代理模式, 对应 app.proxy = true
+    ctx.headers['x-forwarded-proto'] = ctx.headers['x-forwarded-proto'] || 'https'
     await next()
 }
 
@@ -20,10 +22,10 @@ export const normalizeError = async (ctx: Context, next: Next) => {
             err.message = 'Unknow Error'
         }
         if (!err.code) {
-            err.code = -100
+            err.code = -1
         }
         
-        if (err.code == -100 || err.code >= ERROR_CODE.UNKNOW) {
+        if (err.code == -1 || err.code >= ERROR_CODE.UNKNOW) {
             const { code, message, ...context } = err
             ctx.body = { code, data: { message }, ...context }
             return
@@ -48,5 +50,11 @@ export const normalizeData = async (ctx: Context, next: Next) => {
     if (isObject && typeof ctx.body.code === 'undefined') {
         const data = JSON.parse(JSON.stringify(ctx.body))
         ctx.body = { code: 0, data }
+    }
+    if (typeof ctx.body === 'string') {
+        ctx.body = { code: 0, message: ctx.body }
+    }
+    if (typeof ctx.body === 'boolean') {
+        ctx.body = { code: 0, success: ctx.body }
     }
 }

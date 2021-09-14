@@ -26,4 +26,6 @@ app.on('error', (err, ctx) => {
   console.error(`Internal Server Error: ${JSON.stringify(err)}, ${JSON.stringify(ctx)}; ${new Date().toISOString()}`);
 });
 
+app.proxy = true
+
 export default app
